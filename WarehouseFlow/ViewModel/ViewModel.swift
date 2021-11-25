@@ -7,18 +7,26 @@
 
 import Foundation
 import Firebase
+import FirebaseAuth
 
 class ViewModel: ObservableObject{
     @Published var actions = [CrudOperations]()
+    @Published var loginActions = [LoginModel]()
+    @Published var loggedIn = false
     
     let docData:[String: Any] = [
         "Product Name": String.self,
         "Product Amount": String.self
     ]
     
-    func getData(){
+    /*
+     Firebase does not support a way to extract mulltiple collections to show in the swift application, therefore we must create multiple funcitons to extract a single collection
+     at a time. Here is the beginning of the functions that read data from firebase a collection at a time.*/
+    
+    
+    func getElectronicData(){
         let db = Firestore.firestore()
-        db.collection("Add Product").getDocuments { snapshot, error in
+        db.collection("Electronics").getDocuments { snapshot, error in
             if error == nil{
                 if let snapshot = snapshot{
                     DispatchQueue.main.async{
@@ -26,7 +34,8 @@ class ViewModel: ObservableObject{
                             return CrudOperations(id: docs.documentID,
                                                   productName: docs["Product Name"] as? String ?? "",
                                                   productAmount: docs["Product Amount"] as? String ?? "",
-                                                  productType: docs["Product Type"] as? String ?? "")
+                                                  productType: docs["Product Type"] as? String ?? "",
+                                                  productLocation: docs["Product Location"] as? String ?? "")
                             
                         }
                     }
@@ -37,31 +46,93 @@ class ViewModel: ObservableObject{
         }
     }
     
-    func addData(documentName: String,productName: String, productAmount: String, productType: String){
+    
+    func getFoodData(){
         let db = Firestore.firestore()
-        db.collection("Add Product").document(documentName).setData(["Product Name": productName, "Product Amount": productAmount, "Product Type": productType]){ error in
+        db.collection("Food").getDocuments { snapshot, error in
             if error == nil{
-                print("Data was added")
+                if let snapshot = snapshot{
+                    DispatchQueue.main.async{
+                        self.actions = snapshot.documents.map{ docs in
+                            return CrudOperations(id: docs.documentID,
+                                                  productName: docs["Product Name"] as? String ?? "",
+                                                  productAmount: docs["Product Amount"] as? String ?? "",
+                                                  productType: docs["Product Type"] as? String ?? "",
+                                                  productLocation: docs["Product Location"] as? String ?? "")
+                            
+                        }
+                    }
+                }
             }else{
-                print("There was a problem adding the data")
+                print("Could not read data...")
+            }
+        }
+    }
+    func getFurnitureData(){
+        let db = Firestore.firestore()
+        db.collection("Furniture").getDocuments { snapshot, error in
+            if error == nil{
+                if let snapshot = snapshot{
+                    DispatchQueue.main.async{
+                        self.actions = snapshot.documents.map{ docs in
+                            return CrudOperations(id: docs.documentID,
+                                                  productName: docs["Product Name"] as? String ?? "",
+                                                  productAmount: docs["Product Amount"] as? String ?? "",
+                                                  productType: docs["Product Type"] as? String ?? "",
+                                                  productLocation: docs["Product Location"] as? String ?? "")
+                            
+                        }
+                    }
+                }
+            }else{
+                print("Could not read data...")
             }
         }
     }
     
-    func addDocument(documentName: String){
+    func addFoodData(documentName: String, productName: String, productAmount: String, productType: String, productLocation: String){
         let db = Firestore.firestore()
-        db.collection("Add Product").document(documentName).setData(["name": documentName]){ error in
+        let docRef = db.collection("Food").document(documentName)
+        docRef.setData(["Product Name": productName, "Product Amount": productAmount, "Product Type": productType, "Product Location": productLocation]){error in
             if error == nil{
                 print("Data was added")
             }else{
-                print("There was a problem adding the data")
+                print("There was a problem adding the data.")
             }
+            
+        }
+    }
+    func addFurnitureData(documentName: String, productName: String, productAmount: String, productType: String, productLocation: String){
+        let db = Firestore.firestore()
+        let docRef = db.collection("Furniture").document(documentName)
+        docRef.setData(["Product Name": productName, "Product Amount": productAmount, "Product Type": productType, "Product Location": productLocation]){error in
+            if error == nil{
+                print("Data was added")
+            }else{
+                print("There was a problem adding the data.")
+            }
+            
         }
     }
     
-    func deleteData(deleteItem: CrudOperations){
+    func addElectronicsData(documentName: String, productName: String, productAmount: String, productType: String, productLocation: String){
         let db = Firestore.firestore()
-        db.collection("Add Product").document(deleteItem.id).delete { error in
+        let docRef = db.collection("Electronics").document(documentName)
+        docRef.setData(["Product Name": productName, "Product Amount": productAmount, "Product Type": productType, "Product Location": productLocation]){error in
+            if error == nil{
+                print("Data was added")
+            }else{
+                print("There was a problem adding the data.")
+            }
+            
+        }
+    }
+    
+    
+    func deleteFoodData(deleteItem: CrudOperations){
+        let db = Firestore.firestore()
+        
+        db.collection("Food").document(deleteItem.id).delete { error in
             if error == nil{
                 DispatchQueue.main.async{
                     self.actions.removeAll{todo in
@@ -72,16 +143,85 @@ class ViewModel: ObservableObject{
         }
     }
     
-    func updateData(documentName: String,productName:String, productAmount:String){
+    func deleteFurnitureData(deleteItem: CrudOperations){
         let db = Firestore.firestore()
-        db.collection("Add Product").document(documentName).setData(["Product Name": productName, "Product Amount":productAmount], merge: true) {error in
+        
+        db.collection("Furniture").document(deleteItem.id).delete { error in
+            if error == nil{
+                DispatchQueue.main.async{
+                    self.actions.removeAll{todo in
+                        return todo.id == deleteItem.id
+                    }
+                }
+            }
+        }
+    }
+    
+    func deleteElectronicData(deleteItem: CrudOperations){
+        let db = Firestore.firestore()
+        
+        db.collection("Food").document(deleteItem.id).delete { error in
+            if error == nil{
+                DispatchQueue.main.async{
+                    self.actions.removeAll{todo in
+                        return todo.id == deleteItem.id
+                    }
+                }
+            }
+        }
+    }
+    
+    func updateTheData(collectionName:String, documentName: String,productName:String, productAmount:String){
+        let db = Firestore.firestore()
+        db.collection(collectionName).document(documentName).updateData(["Product Name": productName, "Product Amount": productAmount]) {error in
             if error == nil{
                 print("Success updating data")
             }else{
-                print("Something went wrong.")
+                print("The item does not exist! Add it first before modifying.")
             }
             
         }
+    }
+    
+    
+    
+    
+    //these next functions are about user log in and signing up
+    
+    var isLoggedIn: Bool{
+        return Auth.auth().currentUser != nil
+    }
+    
+    func login(email:String, password: String){
+        Auth.auth().signIn(withEmail: email, password: password) { [weak self](result, error) in
+            guard result != nil , error == nil else{
+                return
+            }
+            
+            DispatchQueue.main.async{
+                print("Success!")
+                self?.loggedIn = true
+            }
+        }
+    }
+    
+    func createAccount(email: String, password: String){
+        Auth.auth().createUser(withEmail: email, password: password) { [weak self] result, error in
+            guard result != nil, error == nil else{
+                return
+            }
+            
+            DispatchQueue.main.async {
+                print("Success")
+                self?.loggedIn = true
+            }
+        }
+    }
+    
+    func logout(){
+        try? Auth.auth().signOut()
+        
+        self.loggedIn = false
     }
     
 }
