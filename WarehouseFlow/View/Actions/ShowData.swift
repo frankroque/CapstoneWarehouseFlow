@@ -90,9 +90,6 @@ struct ShowData: View {
                         createButton(type: type[2])
                     })
                 }
-                Spacer()
-                Spacer()
-
             }
             .foregroundColor(/*@START_MENU_TOKEN@*/Color.black/*@END_MENU_TOKEN@*/)
         }

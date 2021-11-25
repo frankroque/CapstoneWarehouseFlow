@@ -19,7 +19,7 @@ struct DeleteFurnitureData: View {
     @State private var showAlert = false
     var body: some View {
         ZStack{
-            LinearGradient(colors: [Color.myWhite, Color.myBlue], startPoint: .topTrailing, endPoint: .bottomLeading)
+            LinearGradient(colors: [Color.myWhite, Color.myBlue], startPoint: .topTrailing, endPoint: .bottomLeading).ignoresSafeArea()
             VStack{
                 Divider()
                     .padding(/*@START_MENU_TOKEN@*/.all/*@END_MENU_TOKEN@*/)
@@ -72,7 +72,7 @@ struct DeleteFurnitureData: View {
                     }
                 }
             }
-        }.edgesIgnoringSafeArea(.all)
+        }
     }
     
     init(){
