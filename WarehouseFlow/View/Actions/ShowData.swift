@@ -96,8 +96,6 @@ struct ShowData: View {
     }
 }
 
-
-
 struct ShowData_Previews: PreviewProvider {
     static var previews: some View {
         ShowData()
