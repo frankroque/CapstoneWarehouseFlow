@@ -3,7 +3,7 @@
 //  WarehouseFlow
 //
 //  Created by Francisco Roque on 11/11/21.
-//
+//  This is the main menu for deleting product. Created in a way to add more buttons later if needed.
 
 import SwiftUI
 
@@ -16,6 +16,7 @@ struct DeleteDataMenu: View {
                 Text("Select Product To Delete").font(.largeTitle)
                     .bold()
                     .padding()
+                //this NavigationLinks used the selectOption stucts from the Main Menu view
                 NavigationLink(destination: DeleteScreenView()){
                     selectOption(options: arrayOfOptions[0])
                 }.padding()

@@ -7,7 +7,8 @@
 
 import Foundation
 
-//might have to rename this to a more appropiate name
+//Create Read Update Delete
+//These variables are the ones that the database performs the CRUD opertations on
 struct CrudOperations: Identifiable{
     var id: String
     var productName: String

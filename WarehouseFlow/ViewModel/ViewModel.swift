@@ -10,8 +10,8 @@ import Firebase
 import FirebaseAuth
 
 class ViewModel: ObservableObject{
-    @Published var actions = [CrudOperations]()
-    @Published var loginActions = [LoginModel]()
+    @Published var actions = [CrudOperations]()//the Model Variables
+    //@Published var loginActions = [LoginModel]() found easier way of implementing, did not need to use, got more difficult anyways;
     @Published var loggedIn = false
     
     let docData:[String: Any] = [
@@ -41,7 +41,7 @@ class ViewModel: ObservableObject{
                     }
                 }
             }else{
-                print("Could not read data...")
+                print("Could not read data...")//error read in debugger output
             }
         }
     }
@@ -90,6 +90,7 @@ class ViewModel: ObservableObject{
         }
     }
     
+    //the next three functions write to the database
     func addFoodData(documentName: String, productName: String, productAmount: String, productType: String, productLocation: String){
         let db = Firestore.firestore()
         let docRef = db.collection("Food").document(documentName)
@@ -128,7 +129,7 @@ class ViewModel: ObservableObject{
         }
     }
     
-    
+    //the next three functions delete data from the database
     func deleteFoodData(deleteItem: CrudOperations){
         let db = Firestore.firestore()
         
@@ -171,6 +172,7 @@ class ViewModel: ObservableObject{
         }
     }
     
+    //this functino is used in the modify data view to modify data the user needs to change in the database
     func updateTheData(collectionName:String, documentName: String,productName:String, productAmount:String){
         let db = Firestore.firestore()
         db.collection(collectionName).document(documentName).updateData(["Product Name": productName, "Product Amount": productAmount]) {error in

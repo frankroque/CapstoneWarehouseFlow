@@ -19,7 +19,7 @@ struct SelectAction: View {
                 Text("Select Action")
                     .bold()
                     .font(.largeTitle)
-            
+            //this NaviagationLinks use the struct below so add buttons easily, if more buttons are needed add a scroll view and more buttons
                 NavigationLink(destination: AddTypeMenu()){
                     actionsSelection(action: actionArray[0])
                 }
@@ -39,6 +39,7 @@ struct SelectAction: View {
     }
 }
 
+//Use this struct to add more buttons for navigation
 struct actionsSelection: View{
     @State var action: String
     var body: some View{

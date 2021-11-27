@@ -3,7 +3,7 @@
 //  WarehouseFlow
 //
 //  Created by Franky Roq on 10/6/21.
-//
+//  This is perhaps the screen where the user has to do the most work. The reason is because there might be information about a product that needs to stay the same and some that needs to change. Regardless of changes or not, the user would need to enter all the information for a product they need to modify. In the future this would be improved.
 
 import SwiftUI
 import Firebase

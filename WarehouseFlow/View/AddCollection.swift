@@ -3,7 +3,7 @@
 //  WarehouseFlow
 //
 //  Created by Franky Roq on 10/21/21.
-//  Will not need this screen for main application at the moment 
+//  WILL NOT USE THIS SCREEN FOR DEMO
 
 import SwiftUI
 import Firebase

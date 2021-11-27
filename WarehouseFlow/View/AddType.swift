@@ -3,7 +3,7 @@
 //  WarehouseFlow
 //
 //  Created by Franky Roq on 10/12/21.
-//  This screen might not be needed
+//  WILL NOT USE THIS SCREEN FOR DEMO
 
 import SwiftUI
 

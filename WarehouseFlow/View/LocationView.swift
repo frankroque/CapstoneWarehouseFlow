@@ -67,7 +67,7 @@ struct LocationView: View {
                     
                 }.padding(.vertical)
                 .background(Color.blue, alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/)
-                
+                // chose three categories that I beleived were the most vague. That way, we can add sub categories under those main categories and keep adding to the database without many repeats and be more specific when needed
                 HStack{
                     Button(action: {
                         model.getElectronicData()
@@ -95,6 +95,7 @@ struct LocationView: View {
     }
 }
 
+//struct for buttons that can be used in other views as well
 struct createButton: View{
     @State var type = ""
     var body: some View{

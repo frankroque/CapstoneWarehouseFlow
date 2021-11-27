@@ -61,7 +61,7 @@ struct DeleteScreenView: View{
                             modelDelete.deleteFoodData(deleteItem: item)
                             showAlert = true
                         }, label: {
-                            Image(systemName: "minus.circle")
+                            Image(systemName: "minus.circle")//Image grabbed from Apple's SF Symbols
                                 .padding(.trailing)
                                 .accentColor(.red)
                                 
@@ -76,7 +76,7 @@ struct DeleteScreenView: View{
             }
         }
     }
-    
+    //this initializer displays the data while being able to delete data using the function from 
     init(){
         modelDelete.getFoodData()
     }

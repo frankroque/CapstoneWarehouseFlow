@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 
+//This extension is created here, but its variables could be used in other pages/views for the background color and for the buttons
 extension Color{
     static var myBlue = (Color(red: 10 / 255, green: 100 / 255, blue: 200 / 255))
     static var myGreen = (Color(red:10 / 255, green: 200 / 255, blue: 100 / 255))
